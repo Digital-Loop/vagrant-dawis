@@ -1,0 +1,167 @@
+databases:
+  mongodb:
+    host: '127.0.0.1'
+    port: 27017
+    dbname: 'dawis'
+    username: ''
+    password: ''
+  orm:
+    dbtype: 'mysql'
+    host: '127.0.0.1'
+    port: 3306
+    dbname: 'dawis'
+    username: 'dawis'
+    password: 'dawis'
+
+#  orm: 'mysql://username:password@127.0.0.1/database'
+#  bigquery:
+#    project: 'project-id'
+#    dataset:
+#      name: 'project-name'
+#      location: 'location-id'
+#      description: 'Some nice description for your dataset'
+#      labels:
+#        environment: 'test'
+#    additionalDatasets:
+#      someAdditionalDataset:
+#        location: 'EU'
+#        description: 'Some nice description for your additional dataset'
+#        labels:
+#          environment: 'test'
+#    credentials: './credentials.json'
+
+urlsets:
+  owndomains:
+    - url: 'https://digital-loop.com/'
+    - url: 'https://digital-loop.com/leistungen/'
+    - url: 'https://digital-loop.com/uber-uns/'
+  otherset:
+    - url: 'https://digital-loop.com/'
+    - url: 'https://digital-loop.com/leistungen/'
+    - url: 'https://digital-loop.com/uber-uns/'
+  shop:
+    - url: 'https://digital-loop.com/'
+    - url: 'https://digital-loop.com/leistungen/'
+    - url: 'https://digital-loop.com/uber-uns/'
+  robotstxtcheck:
+    - url: 'https://digital-loop.com/robots.txt'
+
+aggregations:
+  html_parser:
+    cron: '*/2 * * * *'
+    urlsets:
+      - 'owndomains'
+      - 'otherset'
+      - 'shop'
+    settings:
+      useragent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.87 Safari/537.36'
+  robotstxt:
+    cron: '*/2 * * * *'
+    urlsets:
+      - 'robotstxtcheck'
+    settings:
+      useragent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.87 Safari/537.36'
+
+operations:
+  htmlheadings:
+    cron: '*/2 * * * *'
+    database: 'orm'
+    urlsets:
+      - url: 'owndomains'
+        checks:
+          count_headline_h1: 1
+      - url: 'shop'
+        checks:
+          count_headline_h1: 1
+  metatags:
+    cron: '*/2 * * * *'
+    database: 'orm'
+    urlsets:
+      - url: 'owndomains'
+        checks:
+          title:
+            has_title: true
+            is_title_empty: false
+            has_title_changed: false
+            has_title_duplicates: false
+          description:
+            has_description: true
+            is_description_empty: false
+            has_description_changed: false
+            has_description_duplicates: false
+          canonical:
+            has_canonical: true
+            canonical_is_self_referencing: true
+            canonical_href_200: true
+      - url: 'otherset'
+        checks:
+          title:
+            has_title: true
+            is_title_empty: false
+            has_title_changed: false
+            has_title_duplicates: false
+          description:
+            has_description: true
+            is_description_empty: false
+            has_description_changed: false
+            has_description_duplicates: false
+          canonical:
+            has_canonical: true
+            canonical_is_self_referencing: true
+            canonical_href_200: true
+      - url: 'shop'
+        checks:
+          title:
+            has_title: true
+            is_title_empty: false
+            has_title_changed: false
+            has_title_duplicates: false
+          description:
+            has_description: true
+            is_description_empty: false
+            has_description_changed: false
+            has_description_duplicates: false
+          canonical:
+            has_canonical: true
+            canonical_is_self_referencing: true
+            canonical_href_200: true
+  responseheader:
+    cron: '*/2 * * * *'
+    database: 'orm'
+    urlsets:
+      - url: 'owndomains'
+        checks:
+          status_code:
+            assert: 200
+          content_encoding:
+            assert: 'gzip'
+          cache_control:
+            assert: 'no-cache'
+          expires:
+            assert: 0
+          x_canonical:
+            assert: true
+          no_index:
+            assert: false
+      - url: 'otherset'
+        checks:
+          status_code:
+            assert: 200
+          content_encoding:
+            assert: 'gzip'
+          cache_control:
+            assert: 'no-cache'
+          expires:
+            assert: 0
+          x_canonical:
+            assert: true
+          no_index:
+            assert: false
+  robotstxt:
+    cron: '*/2 * * * *'
+    database: 'orm'
+    urlsets:
+      - url: 'robotstxtcheck'
+        checks:
+          status_code: 200
+          has_sitemap_xml: true

@@ -1,0 +1,10 @@
+---
+- name: Apply common configuration to "all" hosts
+  hosts: all
+  roles:
+    - common
+    - python
+    - mongodb
+    - mysql
+    - chromedriver
+    - dawis

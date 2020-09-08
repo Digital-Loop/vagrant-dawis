@@ -1,0 +1,54 @@
+---
+- name: Start MongoDB block
+  block:
+    - name: Import the public key used by the package management system
+      become: yes
+      shell: "wget -qO - https://www.mongodb.org/static/pgp/server-4.4.asc | sudo apt-key add -"
+
+    - name: Install gnupg and its required libraries using the following command
+      become: yes
+      apt:
+        name: gnupg
+
+    - name: Once installed, retry importing the key
+      become: yes
+      shell: "wget -qO - https://www.mongodb.org/static/pgp/server-4.4.asc | sudo apt-key add -"
+
+    - name: Create a list file for MongoDB
+      become: yes
+      shell: 'echo "deb [ arch=amd64,arm64 ] https://repo.mongodb.org/apt/ubuntu bionic/mongodb-org/4.4 multiverse" | sudo tee /etc/apt/sources.list.d/mongodb-org-4.4.list'
+
+    - name: Reload local package database
+      become: yes
+      shell: "sudo apt-get update"
+
+    - name: Reload local package database
+      become: yes
+      shell: "sudo apt-get install -y mongodb-org=4.4.0 mongodb-org-server=4.4.0 mongodb-org-shell=4.4.0 mongodb-org-mongos=4.4.0 mongodb-org-tools=4.4.0"
+
+    - name: Reload local package database
+      become: yes
+      shell: 'echo "mongodb-org hold" | sudo dpkg --set-selections'
+
+    - name: Reload local package database
+      become: yes
+      shell: 'echo "mongodb-org-server hold" | sudo dpkg --set-selections'
+
+    - name: Reload local package database
+      become: yes
+      shell: 'echo "mongodb-org-shell hold" | sudo dpkg --set-selections'
+
+    - name: Reload local package database
+      become: yes
+      shell: 'echo "mongodb-org-mongos hold" | sudo dpkg --set-selections'
+
+    - name: Reload local package database
+      become: yes
+      shell: 'echo "mongodb-org-tools hold" | sudo dpkg --set-selections'
+
+    - name: Reload local package database
+      become: yes
+      shell: 'sudo systemctl start mongod'
+
+
+# https://docs.mongodb.com/manual/tutorial/install-mongodb-on-ubuntu/

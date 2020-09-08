@@ -1,0 +1,8 @@
+---
+- name: Start Common packages block
+  block:
+    - name: install packages
+      apt: 
+        pkg: ['bash-completion', 'python-pycurl', 'git', 'htop', 'tree', 'vim', 'curl', 'zip', 'rsync', 'wget', 'ant', 'tmux'] 
+        state: latest
+      become: yes

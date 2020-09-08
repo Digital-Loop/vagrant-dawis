@@ -1,0 +1,33 @@
+---
+- name: Start MySQL block
+  block:
+    - name: Install Python MySQL
+      become: yes
+      apt: name=python-mysqldb update_cache=yes cache_valid_time=3600 state=present
+
+    - name: Install MySQL server
+      become: yes
+      apt: name=mysql-server update_cache=yes cache_valid_time=3600 state=present
+
+    - name: Start the MySQL service
+      become: yes
+      service: 
+        name: mysql 
+        state: started
+        enabled: true
+
+    - name: update mysql root password for all root accounts
+      become: yes
+      mysql_user: 
+        name: "dawis"
+        host: "{{ item }}" 
+        password: "dawis"
+        login_user: "dawis"
+        login_password: "dawis"
+        check_implicit_admin: yes
+        priv: "*.*:ALL,GRANT"
+      with_items:
+        - "{{ ansible_hostname }}"
+        - 127.0.0.1
+        - ::1
+        - localhost

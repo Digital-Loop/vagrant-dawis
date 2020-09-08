@@ -1,0 +1,29 @@
+---
+- name: Start Python block
+  block:
+    - name: Install dependencie Python Apt
+      become: yes
+      apt:
+        name: python-apt
+
+    - name: Install version '3.8' of Python
+      become: yes
+      apt:
+        name: python3.8
+
+    - name: Install python3-pip
+      become: yes
+      apt:
+        name: python3-pip
+
+    - name: Install virtualenv
+      become: yes
+      shell: "pip3 install virtualenv"
+
+    - name: Install pipenv
+      become: yes
+      shell: "pip3 install pipenv"
+
+    - name: Add bin to this path
+      become: yes
+      shell: 'export PATH="$PATH:/home/vagrant/.local/bin"'

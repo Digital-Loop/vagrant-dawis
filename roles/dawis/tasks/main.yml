@@ -1,0 +1,25 @@
+---
+- name: Start DAWIS block
+  block:
+    - name: Cloning Repository
+      shell: "git clone https://github.com/mindshape-GmbH/dawis.git dawis"
+      args:
+        chdir: '/home/vagrant/'
+
+    - name: Execute pipenv sync
+      shell: "pipenv sync"
+      args:
+        chdir: '/home/vagrant/dawis'
+
+    - name: Upload mnify config file
+      become: no
+      template:
+        src: 'uploads/config.minify.example.yaml'
+        dest: '/home/vagrant/dawis/config'
+        mode: 0777
+    
+    - name: Rename default config file
+      become: no
+      shell: "mv config.example.yaml /home/vagrant/dawis/config/config.example.yaml.disabled"
+      args:
+        chdir: '/home/vagrant/dawis/config/'

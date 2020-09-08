@@ -1,0 +1,7 @@
+---
+- name: Start Chromedriver block
+  block:
+    - name: Install chromedriver Apt
+      become: yes
+      apt:
+        name: chromium-chromedriver
