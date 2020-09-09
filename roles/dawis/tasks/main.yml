@@ -1,10 +1,81 @@
 ---
 - name: Start DAWIS block
   block:
+    - name: Ensure Redis is present
+      become: yes
+      become_user: root
+      apt: 
+        pkg: redis-server
+        state: latest
+
+    - name: Ensure Redis is started
+      become: yes
+      become_user: root
+      service: name=redis-server state=started enabled=yes
+
+#    - name: Ensure Redis Configuration
+#      become: yes
+#      become_user: root
+#      template: src=templates/redis.conf.j2 dest=/etc/redis/redis.conf owner=root group=root mode=0644
+#      notify: Redis Restart
+
     - name: Cloning Repository
       shell: "git clone https://github.com/mindshape-GmbH/dawis.git dawis"
       args:
         chdir: '/home/vagrant/'
+
+    - name: Creates opt beat-schedules directories
+      become: yes
+      become_user: root
+      file:
+        path: '/opt/dawis/var/beat-schedules'
+        state: directory
+
+    - name: Creates opt run directories
+      become: yes
+      become_user: root
+      file:
+        path: '/opt/dawis/var/run'
+        state: directory
+
+    - name: Creates opt log directories
+      become: yes
+      become_user: root
+      file:
+        path: '/opt/dawis/logs/dawis'
+        state: directory
+
+    - name: Setting base permissions on directories
+      become: yes
+      file:
+        path: '/opt/dawis/'
+        recurse: yes
+        owner: root
+        group: root
+        mode: 0777
+
+    - name: Upload dawis service file
+      become: yes
+      become_user: root
+      template:
+        src: 'uploads/dawis.service'
+        dest: '/etc/systemd/system/'
+        mode: 0644
+
+    - name: Creates conf.d directory
+      become: yes
+      become_user: root
+      file:
+        path: '/etc/conf.d'
+        state: directory
+    
+    - name: Upload dawis environment variables file
+      become: yes
+      become_user: root
+      template:
+        src: 'uploads/dawis_celery'
+        dest: '/etc/conf.d/'
+        mode: 0644
 
     - name: Execute pipenv sync
       shell: "pipenv sync"
@@ -17,9 +88,10 @@
         src: 'uploads/config.minify.example.yaml'
         dest: '/home/vagrant/dawis/config'
         mode: 0777
-    
-    - name: Rename default config file
+
+    - name: Upload dawis config file
       become: no
-      shell: "mv config.example.yaml /home/vagrant/dawis/config/config.example.yaml.disabled"
-      args:
-        chdir: '/home/vagrant/dawis/config/'
+      template:
+        src: 'uploads/config.dawis.yaml'
+        dest: '/home/vagrant/dawis/config'
+        mode: 0777

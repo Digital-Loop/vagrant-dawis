@@ -1,0 +1,33 @@
+databases:
+  mongodb:
+    host: '127.0.0.1'
+    port: 27017
+    dbname: 'dawis'
+    username: ''
+    password: ''
+  orm:
+    dbtype: 'mysql'
+    host: '127.0.0.1'
+    port: 3306
+    dbname: 'dawis'
+    username: 'dawis'
+    password: 'dawis'
+urlsets:
+  robotstxtcheck:
+    - url: 'https://digital-loop.com/robots.txt'
+aggregations:
+  robotstxt:
+    cron: '*/1 * * * *'
+    urlsets:
+      - 'robotstxtcheck'
+    settings:
+      useragent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.87 Safari/537.36'
+operations:
+  robotstxt:
+    cron: '*/1 * * * *'
+    database: 'orm'
+    urlsets:
+      - url: 'robotstxtcheck'
+        checks:
+          status_code: 200
+          has_sitemap_xml: true

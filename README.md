@@ -44,13 +44,37 @@ cd dawis/
 * in the VM:
 
 ```shell
+sudo pipenv install
+```
+
+* in the VM:
+
+```shell
 pipenv shell
 ```
 
-* in the VM (Verify how to start DAWIS with the pre-built configuration file config.minify.example.yaml):
+* in the VM:
 
 ```shell
-python3.8 dawis.py
+sudo systemctl daemon-reload
+```
+
+* in the VM:
+
+```shell
+sudo systemctl start dawis.service
+```
+
+* in the VM:
+
+```shell
+sudo systemctl status dawis.service
+```
+
+* in the VM:
+
+```shell
+python3.8 dawis.py worker
 ```
 
 ### Software Versions

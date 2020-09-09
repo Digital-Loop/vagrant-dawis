@@ -1,0 +1,35 @@
+[Unit]
+Description=dawis
+After=network.target
+[Service]
+Type=forking
+User=vagrant
+Group=vagrant
+EnvironmentFile=/etc/conf.d/dawis_celery
+WorkingDirectory=/home/vagrant/dawis
+ExecStart=/bin/sh -c '\
+${CELERY_PIPENV_RUN} multi start ${CELERY_NODES} \
+-A ${CELERY_APP} -B \
+--schedule=${CELERY_BEAT_SCHEDULEFILE_PATH}/dawis-schedule.db \
+--pidfile=${CELERY_PIDFILE_PATH}/dawis-%n.pid \
+--logfile=${CELERY_LOGFILE_PATH}/dawis/%n%I.log \
+--loglevel=${CELERY_LOGLEVEL} \
+--time-limit=${CELERY_TIME_LIMIT} \
+--concurrency=${CELERY_CONCURRENCY} \
+'
+ExecStop=/bin/sh -c '\
+${CELERY_PIPENV_RUN} multi stop ${CELERY_NODES} \
+--pidfile=${CELERY_PIDFILE_PATH}/dawis-%n.pid \
+'
+ExecReload=/bin/sh -c '\
+${CELERY_PIPENV_RUN} multi restart ${CELERY_NODES} \
+-A ${CELERY_APP} -B \
+--schedule=${CELERY_BEAT_SCHEDULEFILE_PATH}/dawis-schedule.db \
+--pidfile=${CELERY_PIDFILE_PATH}/dawis-%n.pid \
+--logfile=${CELERY_LOGFILE_PATH}/dawis/%n%I.log \
+--loglevel=${CELERY_LOGLEVEL} \
+--time-limit=${CELERY_TIME_LIMIT} \
+--concurrency=${CELERY_CONCURRENCY} \
+'
+[Install]
+WantedBy=multi-user.target
