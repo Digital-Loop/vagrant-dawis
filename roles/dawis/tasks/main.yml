@@ -13,12 +13,6 @@
       become_user: root
       service: name=redis-server state=started enabled=yes
 
-#    - name: Ensure Redis Configuration
-#      become: yes
-#      become_user: root
-#      template: src=templates/redis.conf.j2 dest=/etc/redis/redis.conf owner=root group=root mode=0644
-#      notify: Redis Restart
-
     - name: Cloning Repository
       shell: "git clone https://github.com/mindshape-GmbH/dawis.git dawis"
       args:
@@ -76,11 +70,6 @@
         src: 'uploads/dawis_celery'
         dest: '/etc/conf.d/'
         mode: 0644
-
-    - name: Execute pipenv sync
-      shell: "pipenv sync"
-      args:
-        chdir: '/home/vagrant/dawis'
 
     - name: Upload mnify config file
       become: no
