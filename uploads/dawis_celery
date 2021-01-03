@@ -1,5 +1,5 @@
 PIPENV_VENV_IN_PROJECT=1
-CELERY_PIPENV_RUN="/usr/local/bin/pipenv run python -m celery"
+CELERY_PIPENV_RUN="pipenv run python3.8 dawis.py"
 CELERY_APP="dawis"
 CELERY_BEAT_SCHEDULEFILE_PATH="/opt/dawis/var/beat-schedules"
 CELERY_PIDFILE_PATH="/opt/dawis/var/run"

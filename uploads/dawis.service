@@ -5,7 +5,7 @@ After=network.target
 Type=forking
 User=vagrant
 Group=vagrant
-EnvironmentFile=/etc/conf.d/dawis_celery
+EnvironmentFile=/home/vagrant/dawis/config/dawis_celery
 WorkingDirectory=/home/vagrant/dawis
 ExecStart=/bin/sh -c '\
 ${CELERY_PIPENV_RUN} multi start ${CELERY_NODES} \

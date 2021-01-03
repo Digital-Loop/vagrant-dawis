@@ -41,40 +41,40 @@ vagrant ssh
 cd dawis/
 ```
 
-* in the VM:
+* in the VM: Install dependencies
 
 ```shell
 sudo pipenv install
 ```
 
-* in the VM:
+* in the VM: Activate this project's virtualenv and run the first time Dawis manually
 
 ```shell
-pipenv shell
+pipenv run python3.8 dawis.py -A dawis worker -l info -B
 ```
 
-* in the VM:
+* in the VM: Terminate all running tasks
 
 ```shell
-sudo systemctl daemon-reload
+Ctrl + C
 ```
 
-* in the VM:
+* in the VM: Clear cache in the lock file works every time
+
+```shell
+sudo pipenv lock --clear
+```
+
+* in the VM: Reinstall dependencies
+
+```shell
+sudo pipenv install
+```
+
+* in the VM: Start Dawis as a service
 
 ```shell
 sudo systemctl start dawis.service
-```
-
-* in the VM:
-
-```shell
-sudo systemctl status dawis.service
-```
-
-* in the VM:
-
-```shell
-python3.8 dawis.py worker
 ```
 
 ### Software Versions

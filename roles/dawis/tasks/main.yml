@@ -64,18 +64,10 @@
         state: directory
     
     - name: Upload dawis environment variables file
-      become: yes
-      become_user: root
-      template:
-        src: 'uploads/dawis_celery'
-        dest: '/etc/conf.d/'
-        mode: 0644
-
-    - name: Upload mnify config file
       become: no
       template:
-        src: 'uploads/config.minify.example.yaml'
-        dest: '/home/vagrant/dawis/config'
+        src: 'uploads/dawis_celery'
+        dest: '/home/vagrant/dawis/config/'
         mode: 0777
 
     - name: Upload dawis config file
