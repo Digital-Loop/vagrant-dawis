@@ -17,16 +17,24 @@ A Vagrant box based containing Lubuntu linux, Python, Pipenv, MongoDB, MySQL, Ch
 vagrant plugin install vagrant-vbguest
 ```
 
+## How To Use
+
+* clone the repository
+
+```shell
+git clone https://github.com/Digital-Loop/vagrant-dawis.git
+```
+
+* from the cloned directory
+
+```shell
+cd vagrant-dawis
+```
+
 * to start a new instance:
 
 ```shell
-vagrant up
-```
-
-* to provision the environment:
-
-```shell
-vagrant provision
+vagrant up --provision
 ```
 
 * access the VM using SSH:
@@ -76,6 +84,12 @@ sudo pipenv install
 ```shell
 sudo systemctl start dawis.service
 ```
+
+## Private network
+
+### Linux enviroment virtual machine
+
+- Ip: "192.168.33.10"
 
 ### Software Versions
 
