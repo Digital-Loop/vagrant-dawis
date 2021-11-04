@@ -1,6 +1,6 @@
 # Vagrant DAWIS
 
-The open source data warehouse system in a local environment.
+The open source SEO data warehouse system in a local environment.
 
 A Vagrant box based containing Lubuntu linux, Python, Pipenv, MongoDB, MySQL, ChromeDriver and DAWIS. Provisioned with ansible.
 
