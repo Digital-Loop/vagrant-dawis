@@ -79,9 +79,10 @@ sudo pipenv lock --clear
 sudo pipenv install
 ```
 
-* in the VM: Start Dawis as a service
+* in the VM: Start Dawis and MongoDB as a services
 
 ```shell
+sudo systemctl start mongod.service
 sudo systemctl start dawis.service
 ```
 
