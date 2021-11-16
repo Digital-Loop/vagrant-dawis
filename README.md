@@ -55,7 +55,7 @@ cd dawis/
 sudo pipenv install
 ```
 
-* in the VM: Activate this project's virtualenv and run the first time Dawis manually
+* in the VM: Run the Celery worker for the dawis project
 
 ```shell
 pipenv run python3.8 dawis.py -A dawis worker -l info -B
