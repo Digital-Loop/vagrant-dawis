@@ -1,4 +1,4 @@
-# Vagrant DAWIS
+# Vagrant DAWIS - SEO Data Warehouse
 
 The open source SEO data warehouse system in a local environment.
 
